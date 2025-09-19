@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -85,10 +86,12 @@ class _MapsScreenState extends State<MapsScreen> {
 
     serviceEnabled = await _locationController.serviceEnabled();
 
-    if (serviceEnabled) {
+    // Request service if not enabled
+    if (!serviceEnabled) {
       serviceEnabled = await _locationController.requestService();
-    } else {
-      return;
+      if (!serviceEnabled) {
+        return;
+      }
     }
 
     permissionGranted = await _locationController.hasPermission();
@@ -100,20 +103,41 @@ class _MapsScreenState extends State<MapsScreen> {
       }
     }
 
-    _locationController.onLocationChanged.listen((
-      LocationData currentLocation,
-    ) {
-      if (currentLocation.latitude != null &&
-          currentLocation.longitude != null) {
+    bool _firstFix = true;
+    LatLng? _lastCameraPosition;
+
+    _locationController.onLocationChanged.listen((LocationData currentLocation) {
+      if (currentLocation.latitude != null && currentLocation.longitude != null) {
+        final newPos = LatLng(currentLocation.latitude!, currentLocation.longitude!);
         setState(() {
-          _currentP = LatLng(
-            currentLocation.latitude!,
-            currentLocation.longitude!,
-          );
-          _cameraToPosition(_currentP!);
+          _currentP = newPos;
         });
+
+        // Animate camera only on first fix or if user moved > 10 meters
+        if (_firstFix || _lastCameraPosition == null ||
+            _distanceBetween(_lastCameraPosition!, newPos) > 10) {
+          _cameraToPosition(newPos);
+          _firstFix = false;
+          _lastCameraPosition = newPos;
+        }
       }
     });
+  }
+
+  double _distanceBetween(LatLng a, LatLng b) {
+    // Haversine formula approximate in meters
+    const double R = 6371000; // Earth radius in meters
+    double toRad(double deg) => deg * (3.141592653589793 / 180);
+    final dLat = toRad(b.latitude - a.latitude);
+    final dLon = toRad(b.longitude - a.longitude);
+    final lat1 = toRad(a.latitude);
+    final lat2 = toRad(b.latitude);
+
+    final sinDLat = (math.sin(dLat / 2));
+    final sinDLon = (math.sin(dLon / 2));
+    final h = sinDLat * sinDLat + math.cos(lat1) * math.cos(lat2) * sinDLon * sinDLon;
+    final c = 2 * math.atan2(math.sqrt(h), math.sqrt(1 - h));
+    return R * c;
   }
 
   Future<List<LatLng>> getPolyLinePoints() async {
