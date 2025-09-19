@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'TripReportScreen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -42,7 +42,11 @@ class HomeScreen extends StatelessWidget {
                 child: CircleAvatar(
                   radius: 30,
                   backgroundColor: Colors.teal[300],
-                  child: const Icon(Icons.person, size: 30, color: Colors.white),
+                  child: const Icon(
+                    Icons.person,
+                    size: 30,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
@@ -66,7 +70,9 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 6),
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.teal[100],
                       borderRadius: BorderRadius.circular(8),
@@ -124,18 +130,27 @@ class HomeScreen extends StatelessWidget {
               child: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.teal[700],
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const TripReportScreen()),
+                  );
+                },
                 icon: const Icon(Icons.edit, color: Colors.white),
                 label: const Text(
                   "TELL US ABOUT THE TRIP",
                   style: TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.white),
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
