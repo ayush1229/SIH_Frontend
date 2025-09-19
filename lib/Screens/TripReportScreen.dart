@@ -61,28 +61,32 @@ class _TripReportScreenState extends State<TripReportScreen> {
           final parsed = Map<String, dynamic>.from(jsonDecode(resp.body));
           if (parsed['success'] == true) {
             setState(() {
-              if (parsed['trip_number'] != null)
+              if (parsed['trip_number'] != null) {
                 _tripNumberCtrl.text = parsed['trip_number'];
+              }
               if (parsed['origin'] != null) _originCtrl.text = parsed['origin'];
-              if (parsed['destination'] != null)
+              if (parsed['destination'] != null) {
                 _destinationCtrl.text = parsed['destination'];
+              }
               if (parsed['time'] != null) _timeCtrl.text = parsed['time'];
               if (parsed['mode'] != null) _modeCtrl.text = parsed['mode'];
             });
           }
         } else {
-          if (mounted)
+          if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text('Extraction failed (status: ${resp.statusCode})'),
               ),
             );
+          }
         }
       } catch (e) {
-        if (mounted)
+        if (mounted) {
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(SnackBar(content: Text('Extraction error: $e')));
+        }
       }
     }
   }
