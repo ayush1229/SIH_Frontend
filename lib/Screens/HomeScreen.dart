@@ -152,7 +152,7 @@ class HomeScreen extends StatelessWidget {
                     title: const Text("Maps"),
                     trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                     onTap: () {
-                      // TODO: Add route for Maps if available
+                      Navigator.pushNamed(context, '/maps');
                     },
                   ),
                   const Divider(),

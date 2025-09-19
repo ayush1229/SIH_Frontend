@@ -5,14 +5,14 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:sihapp/widgets/consts.dart';
 
-class Maps extends StatefulWidget {
-  const Maps({super.key});
+class MapsScreen extends StatefulWidget {
+  const MapsScreen({super.key});
 
   @override
-  State<Maps> createState() => _MapsState();
+  State<MapsScreen> createState() => _MapsScreenState();
 }
 
-class _MapsState extends State<Maps> {
+class _MapsScreenState extends State<MapsScreen> {
   final Location _locationController = Location();
 
   final Completer<GoogleMapController> _mapController =
@@ -127,9 +127,9 @@ class _MapsState extends State<Maps> {
       ),
     );
     if (result.points.isNotEmpty) {
-      result.points.forEach((PointLatLng point) {
+      for (var point in result.points) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-      });
+      }
     } else {
       print(result.errorMessage);
     }

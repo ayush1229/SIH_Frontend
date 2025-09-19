@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sihapp/Screens/MapsScreen.dart';
 import 'Screens/HomeScreen.dart';
 import 'Screens/ExpensesScreen.dart';
 import 'Screens/TripNotes.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
         '/tripChain': (context) => const TripChainScreen(),
         '/safety': (context) => const SafetyScreen(),
         '/ecoTravel': (context) => const EcoTravelScreen(),
+        '/maps' : (context) => const MapsScreen(),
       },
     );
   }
