@@ -1,4 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Allow the app to use network sockets. Required for any HTTP/HTTPS calls. -->
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:label="sihapp"
         android:name="${applicationName}"
